@@ -1,0 +1,28 @@
+<div class="container">
+
+  <ng-container *ngFor="let message of results">
+    <div class="message" [ngClass]="{'from': message.sentBy === 'bot', 'to':message.sentBy === 'user'}">
+     <div *ngIf="!message.img">
+      <div  [innerHTML]="message.title"> </div></div>
+      <div *ngIf="message.img">
+       {{message.img_url}}
+        <img src="http://172.16.14.211:7005/uploads/{{botId}}/carousel/{{message.img_url}}">
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="message.suggestions" class="sugg">
+        <div style="display: flex;margin-left: 11%;">
+          <div *ngFor="let sugg of message.options | keyvalue " style="margin-right:3%">
+            <button type="button" class="btn btn-primary option-style" ng-style="{'background': (isHover ? bthover : 'white'),'border-color':btbordercolor,'color':btcolor}"
+              ng-mouseenter="isHover = true" ng-mouseleave="isHover = false" (click)="sendval(sugg.value)" value={{sugg.value}}>{{sugg.key}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <label for="nameField">Your Message:</label>
+  <input id="nameField" [(ngModel)]="formValue" (keyup.enter)="sendMessage()" type="text"><br>
+  <button type="button" (click)="sendMessage()">Send</button>
+
+</div>
